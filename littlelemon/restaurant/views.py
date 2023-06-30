@@ -5,9 +5,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from .serializers import *
-
-
-
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 def index(request):
@@ -16,7 +14,8 @@ def index(request):
 class BookingView(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
-
+    permission_classes = [IsAuthenticated]
+    
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
